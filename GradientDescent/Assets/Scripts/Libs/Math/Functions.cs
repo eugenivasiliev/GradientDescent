@@ -5,8 +5,13 @@ namespace Math
     /// </summary>
     public static class Functions
     {
+        public static double Sqrt(double x) => System.Math.Sqrt(x);
+
         public static double Sin(double a) => System.Math.Sin(a);
         public static double Cos(double a) => System.Math.Cos(a);
+
+        public static double Arcsin(double s) => System.Math.Asin(s);
+        public static double Arccos(double c) => System.Math.Acos(c);
 
         public static double Min(double a, double b) => (a < b) ? a : b;
         public static double Max(double a, double b) => (a > b) ? a : b;

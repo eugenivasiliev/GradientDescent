@@ -28,7 +28,7 @@ namespace Math
         }
 
         private double value;
-        private double Value
+        public double Value
         {
             get => value;
             set => this.value = Functions.Clamp(value, Min, Max);
