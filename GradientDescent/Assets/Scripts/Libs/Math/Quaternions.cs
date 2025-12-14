@@ -2,7 +2,7 @@ namespace Math
 {
     /// <summary>Custom <c>Quaternion</c> class. Used to represent rotations.</summary>
     /// <remarks>Inherits from <c>Transformation</c></remarks>
-    public class Quaternion : Transformation
+    public class Quaternion : Transformation, IDerivable<Quaternion>
     {
         /// <summary>
         /// Real component of the <c>Quaternion</c>
@@ -64,9 +64,9 @@ namespace Math
             if (isInDegrees) angle = angle * Constants.Deg2Rad;
             double angle_2 = angle * 0.5f;
             Vector3 n_axis = axis.Normalized;
-            double s = System.Math.Sin(angle_2);
+            double s = Functions.Sin(angle_2);
 
-            this.a = System.Math.Cos(angle_2);
+            this.a = Functions.Cos(angle_2);
             this.b = s * n_axis.x;
             this.c = s * n_axis.y;
             this.d = s * n_axis.z;
@@ -159,6 +159,22 @@ namespace Math
         {
             double dot = Quaternion.Dot(a, b);
             return System.Math.Atan2(dot, a.magnitude * b.magnitude);
+        }
+
+        public double angle => 2 * Functions.Arccos(this.a);
+
+        public Quaternion Derivative()
+        {
+            double angle = 2 * Functions.Arccos(this.a);
+            double c = this.a;
+            double s = Functions.Cos(angle);
+            double frac = c / s;
+
+            Quaternion q = new Quaternion(
+                -s, this.b * frac, this.c * frac, this.d * frac
+                );
+
+            return q;
         }
 
         public static Quaternion identity = new Quaternion(1, 0, 0, 0);

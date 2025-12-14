@@ -167,4 +167,63 @@ namespace Math
         public static readonly Vector3 back = new Vector3(0, 0, -1);
         #endregion
     }
+
+    [System.Serializable]
+    public struct Vector
+    {
+        public System.Collections.Generic.List<double> values;
+
+        public Vector(int n)
+        {
+            this.values = new System.Collections.Generic.List<double>();
+            for (int i = 0; i < n; i++) this.values.Add(0d);
+        }
+
+        public double this[int i]
+        {
+            get { return values[i]; }
+            set { values[i] = value; }
+        }
+
+        public static Vector operator +(Vector l, Vector r)
+        {
+            if (l.values.Count != r.values.Count) throw new System.ArgumentException();
+
+            Vector result = new Vector(l.values.Count);
+
+            for (int i = 0; i < l.values.Count; i++)
+                result[i] = l.values[i] + r.values[i];
+
+            return result;
+        }
+
+        public static Vector operator -(Vector v)
+        {
+            Vector result = v;
+            for (int i = 0; i < v.values.Count; i++) result[i] *= -1;
+            return result;
+        }
+
+        public static Vector operator- (Vector l, Vector r)
+        {
+            return l + -r;
+        }
+
+        public static Vector operator*(double d, Vector v)
+        {
+            Vector result = v;
+            for (int i = 0; i < v.values.Count; i++) result[i] *= d;
+            return result;
+        }
+
+        public double SqrMagnitude
+        {
+            get
+            {
+                double result = 0;
+                foreach(double v in values) result += v * v;
+                return result;
+            }
+        }
+    }
 }
